@@ -1,0 +1,84 @@
+{% extends 'users/base.html' %}
+{% load mathfilters %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="h3 font-weight-normal text-muted">My Posts</h2>
+    </div>
+    <div class="row justify-content-center">
+        {% for post in posts %}
+        <!--Card starts here-->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header d-flex align-items-center">
+                    <img class="rounded-circle" src="{{ post.user.profile.photo.url }}" alt="" style="width: 40px; height: 40px;">
+                    <div class="ml-3 font-weight-bold text-primary">{{ post.user }}</div>
+                </div>
+                <a href="{% url "post-detail" post.id %}">
+                <img class="card-img-top" src="{{ post.image.url }}" alt="">
+                </a>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <a id="{{ post.id }}" class="btn-like">
+                            {% if logged_user in post.liked_by.all %}
+                            <img src="{% static 'users/images/redlike.png' %}" alt="" style="width: 20px; height: 20px;">
+                            {% else %}
+                            <img src="{% static 'users/images/whitelike.png' %}" alt="" style="width: 20px; height: 20px;">
+                            {% endif %}
+                        </a>
+                        <img src="{% static 'users/images/comment.png' %}" alt="" style="width: 20px; height: 20px;">
+                        <img src="{% static 'users/images/share.png' %}" alt="" style="width: 20px; height: 20px;">
+                    </div>
+                    <div>
+                        {% if post.liked_by.count < 1 %}
+                        {% elif post.liked_by.count == 1 %}
+                        {{ post.liked_by.first }} likes this
+                        {% elif post.liked_by.count > 1 %}
+                        {{ post.liked_by.first }} & {{ post.liked_by.count|sub:1 }} others like this
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title mt-3">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.caption }}</p>
+                    <div>
+                        {% for comment in post.comments.all %}
+                        <b>{{ comment.posted_by }}</b>: {{ comment.body }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="hidden" name="post_id" id="post_id" value="{{ post.id }}">
+                            <input type="hidden" name="posted_by" id="posted_by" value="{{ logged_user }}">
+                            <textarea class="form-control" rows="1" placeholder="Add a comment..." name="body"></textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Card ends here-->
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.CSRF_TOKEN = "{{ csrf_token }}"
+    $(document).on('click', '.btn-like', function() {
+        var post_id = this.id;
+        $.ajax({
+            method: "POST",
+            url: '/posts/like',
+            data: { post_id: post_id, csrfmiddlewaretoken: window.CSRF_TOKEN }
+        })
+        .done(function() {
+            window.location.reload();
+        });
+    });
+</script>
+{% endblock %}

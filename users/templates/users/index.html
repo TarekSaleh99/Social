@@ -1,0 +1,38 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center text-secondary mb-4">My Posts</h2>
+
+    <div class="row justify-content-center">
+        {% for post in posts %}
+        <!-- Card starts here -->
+        <div class="col-12 col-sm-6 col-md-4 mb-4">
+            <div class="card d-flex flex-column h-100">
+                <a href="{% url "post-detail" post.id %}">
+                    <div class="card-body p-0 flex-grow-1">
+                        <div class="d-flex align-items-center p-3">
+                            <img class="rounded-circle mr-2" src="{{ profile.photo.url }}" alt="" style="width: 40px; height: 40px;">
+                            <span class="font-weight-bold text-primary">{{ post.user }}</span>
+                        </div>
+                        <img class="card-img-top img-fluid" src="{{ post.image.url }}" alt="">
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex mb-2">
+                            <img class="mr-2" src="{% static 'users/images/like.png' %}" alt="" style="width: 20px; height: 20px;">
+                            <img class="mr-2" src="{% static 'users/images/comment.png' %}" alt="" style="width: 20px; height: 20px;">
+                            <img src="{% static 'users/images/share.png' %}" alt="" style="width: 20px; height: 20px;">
+                        </div>
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.caption }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- Card ends here -->
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

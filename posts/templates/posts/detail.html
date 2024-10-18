@@ -1,0 +1,30 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 mb-4">
+            <!-- Post details card -->
+            <div class="card h-100 shadow-sm">
+                <div class="card-header d-flex align-items-center">
+                    <img class="rounded-circle" src="{{ detail.user.profile.photo.url }}" alt="" style="width: 40px; height: 40px;">
+                    <div class="ml-3 font-weight-bold text-primary">{{ detail.user }}</div>
+                </div>
+                <img class="card-img-top" src="{{ detail.image.url }}" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">{{ detail.title }}</h5>
+                    <p class="card-text">{{ detail.caption }}</p>
+                    
+                    <!-- Comments Section -->
+                    <div>
+                        {% for comment in detail.comments.all %}
+                        <b>{{ comment.posted_by }}</b>: {{ comment.body }}<br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

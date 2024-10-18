@@ -1,0 +1,33 @@
+{% extends 'users/base.html' %}
+{% block body %}
+<h1 class="text-center my-4">👨🏻 Register User</h1>
+
+<div class="container d-flex justify-content-center py-5">
+    <form method="POST" class="bg-white shadow-sm p-4 rounded" style="width: 100%; max-width: 360px;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ user_form.email.id_for_label }}">Email</label>
+            <input type="email" name="{{ user_form.email.html_name }}" id="{{ user_form.email.id_for_label }}" class="form-control" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="{{ user_form.username.id_for_label }}">Username</label>
+            <input type="text" name="{{ user_form.username.html_name }}" id="{{ user_form.username.id_for_label }}" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="{{ user_form.first_name.id_for_label }}">Firstname</label>
+            <input type="text" name="{{ user_form.first_name.html_name }}" id="{{ user_form.first_name.id_for_label }}" class="form-control" placeholder="Firstname">
+        </div>
+        <div class="form-group">
+            <label for="{{ user_form.password.id_for_label }}">Password</label>
+            <input type="password" name="{{ user_form.password.html_name }}" id="{{ user_form.password.id_for_label }}" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="{{ user_form.password2.id_for_label }}">Confirm Password</label>
+            <input type="password" name="{{ user_form.password2.html_name }}" id="{{ user_form.password2.id_for_label }}" class="form-control" placeholder="Confirm Password">
+        </div>
+        <button class="btn btn-success btn-block" type="submit">Register</button>
+    </form>
+</div>
+
+<p class="text-center my-4"><a class="btn btn-link" href="{% url 'password_reset' %}">Forgot password? Click here to reset</a></p>
+{% endblock %}

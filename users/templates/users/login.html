@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+{% block body %}
+<h1 class="text-center my-4">👨🏻 Login User</h1>
+
+<div class="container d-flex justify-content-center py-5">
+    <form method="POST" class="bg-white shadow-sm p-4 rounded" style="width: 100%; max-width: 360px;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" class="form-control" placeholder="Password">
+        </div>
+        <button class="btn btn-success btn-block" type="submit">Login</button>
+    </form>
+</div>
+
+<p class="text-center my-4"><a class="btn btn-link" href="{% url 'password_reset' %}">Forgot password? Click here to reset</a></p>
+{% endblock %}

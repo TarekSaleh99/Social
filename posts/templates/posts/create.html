@@ -1,0 +1,33 @@
+{% extends 'users/base.html' %}
+{% block body %}
+<h2 class="h2 font-weight-bold text-center my-4">📸 Create A Post</h2>
+
+<div class="container py-5">
+    
+<form method="post" class="bg-white shadow-sm p-4 rounded-lg w-50 mx-auto" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Title Field -->
+  <div class="form-group">
+    <label for="id_title" class="font-weight-bold">Add Title</label>
+    {{ form.title }}
+  </div>
+
+  <!-- Image Upload Field -->
+  <div class="form-group">
+    <label for="id_image" class="font-weight-bold">Upload Image</label>
+    {{ form.image }}
+  </div>
+
+  <!-- Caption Field -->
+  <div class="form-group">
+    <label for="id_caption" class="font-weight-bold">Add Caption</label>
+    {{ form.caption }}
+  </div>
+  
+  <!-- Submit Button -->
+  <button type="submit" class="btn btn-success btn-block my-4">Submit</button>
+
+</form>
+</div>
+{% endblock %}

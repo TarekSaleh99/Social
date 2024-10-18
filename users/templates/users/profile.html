@@ -1,0 +1,10 @@
+{% if logged_user != profile.user %}
+    {% if profile not in logged_user.profile.friends.all %}
+        <form action="{% url 'send_friend_request' profile.user.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Add Friend</button>
+        </form>
+    {% else %}
+        <p>You are already friends!</p>
+    {% endif %}
+{% endif %}
